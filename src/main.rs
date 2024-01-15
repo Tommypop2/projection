@@ -1,6 +1,6 @@
 use clap::Parser;
 use fs_extra::dir::CopyOptions;
-use simple_home_dir;
+use simple_home_dir::home_dir;
 use std::{fs, path::PathBuf};
 
 #[derive(Parser, Debug)]
@@ -14,22 +14,19 @@ struct Args {
 fn main() {
     let args = Args::parse();
     // Get all directories
-    let dirs: Vec<PathBuf> = fs::read_dir(
-        simple_home_dir::home_dir()
-            .expect("Cannot find home dir")
-            .join("projection"),
-    )
-    .expect("Unable to read directory")
-    .filter_map(|entry| {
-        let entry = entry.ok()?;
-        let path = entry.path();
-        if path.is_dir() {
-            Some(path)
-        } else {
-            None
-        }
-    })
-    .collect();
+    let dirs: Vec<PathBuf> =
+        fs::read_dir(home_dir().expect("Cannot find home dir").join("projection"))
+            .expect("Unable to read directory")
+            .filter_map(|entry| {
+                let entry = entry.ok()?;
+                let path = entry.path();
+                if path.is_dir() {
+                    Some(path)
+                } else {
+                    None
+                }
+            })
+            .collect();
     // Find the template
     let template_dir = dirs
         .iter()
@@ -45,7 +42,7 @@ fn main() {
             &args.template_name
         }
     };
-    let new_dir = cwd.join(&dir_name);
+    let new_dir = cwd.join(dir_name);
     if new_dir.exists() {
         let files = new_dir
             .read_dir()
