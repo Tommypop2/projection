@@ -13,6 +13,7 @@ struct Args {
 
 fn main() {
     let args = Args::parse();
+
     // Get all directories
     let dirs: Vec<PathBuf> =
         fs::read_dir(home_dir().expect("Cannot find home dir").join("projection"))
@@ -27,13 +28,14 @@ fn main() {
                 }
             })
             .collect();
+
     // Find the template
     let template_dir = dirs
         .iter()
         .find(|dir| dir.ends_with(&args.template_name))
         .expect("No template found");
-    // Copy template to current working directory
 
+    // Copy template to current working directory
     let cwd = std::env::current_dir().expect("Unable to get current working directory");
     let dir_name = {
         if let Some(dest) = &args.destination {
