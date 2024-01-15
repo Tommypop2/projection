@@ -38,19 +38,26 @@ fn main() {
     // Copy template to current working directory
 
     let cwd = std::env::current_dir().expect("Unable to get current working directory");
-    let new_dir = cwd.join({
+    let dir_name = {
         if let Some(dest) = &args.destination {
             dest
         } else {
             &args.template_name
         }
-    });
+    };
+    let new_dir = cwd.join(&dir_name);
     if new_dir.exists() {
-        println!("Directory already exists");
-        return;
+        let files = new_dir
+            .read_dir()
+            .expect("Unable to access directory")
+            .count();
+        if files > 0 {
+            panic!("Directory '{}' is non-empty", &dir_name);
+        }
+    } else {
+        // Create new directory
+        fs::create_dir(&new_dir).expect("Unable to create directory");
     }
-    // Create new directory
-    fs::create_dir(&new_dir).expect("Unable to create directory");
     // Copy contents of template into directory
     fs_extra::dir::copy(
         template_dir,
