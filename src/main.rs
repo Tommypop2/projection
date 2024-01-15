@@ -1,8 +1,8 @@
 use std::{fs, path::PathBuf};
-
+use simple_home_dir;
 use clap::Parser;
 use fs_extra::dir::CopyOptions;
-static PROJECTION_DIR: &str = "C:/Users/thoma/projection";
+
 #[derive(Parser, Debug)]
 #[command(author, version, about, long_about = None)]
 /// Easily scaffold projects from templates
@@ -19,7 +19,7 @@ struct Args {
 fn main() {
     let args = Args::parse();
     // Get all directories
-    let dirs: Vec<PathBuf> = fs::read_dir(PROJECTION_DIR)
+    let dirs: Vec<PathBuf> = fs::read_dir(simple_home_dir::home_dir().expect("Cannot find home dir").join("projection"))
         .expect("Unable to read directory")
         .filter_map(|entry| {
             let entry = entry.ok()?;
