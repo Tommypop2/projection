@@ -13,21 +13,23 @@ struct Args {
 
 fn main() {
     let args = Args::parse();
-
+    let projection_dir = home_dir().expect("Cannot find home dir").join("projection");
+    if !projection_dir.exists() {
+        fs::create_dir(&projection_dir).expect("Couldn't create projection dir");
+    }
     // Get all directories
-    let dirs: Vec<PathBuf> =
-        fs::read_dir(home_dir().expect("Cannot find home dir").join("projection"))
-            .expect("Unable to read directory")
-            .filter_map(|entry| {
-                let entry = entry.ok()?;
-                let path = entry.path();
-                if path.is_dir() {
-                    Some(path)
-                } else {
-                    None
-                }
-            })
-            .collect();
+    let dirs: Vec<PathBuf> = fs::read_dir(projection_dir)
+        .expect("Unable to read directory")
+        .filter_map(|entry| {
+            let entry = entry.ok()?;
+            let path = entry.path();
+            if path.is_dir() {
+                Some(path)
+            } else {
+                None
+            }
+        })
+        .collect();
 
     // Find the template
     let template_dir = dirs
