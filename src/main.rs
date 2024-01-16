@@ -9,7 +9,7 @@ use create::CreateArgs;
 /// Easily scaffold projects from templates
 struct Cli {
     #[command(subcommand)]
-    command: Option<Commands>,
+    command: Commands,
 }
 #[derive(Subcommand, Debug)]
 enum Commands {
@@ -21,10 +21,7 @@ enum Commands {
 fn main() {
     let cli = Cli::parse();
     match &cli.command {
-        Some(Commands::Create(args)) => create::create_template(args),
-        Some(Commands::List) => list::list_templates(),
-        None => {
-            println!("No command specified");
-        }
+        Commands::Create(args) => create::create_template(args),
+        Commands::List => list::list_templates(),
     }
 }
