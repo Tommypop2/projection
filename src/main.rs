@@ -24,10 +24,7 @@ fn main() {
         Commands::Create(args) => create::create_template(args),
         Commands::List => list::list_templates(),
     };
-    match res {
-        Err(e) => {
-            e.print().expect("Unable to print error");
-        }
-        _ => {}
+    if let Err(e) = res {
+        e.print().expect("Unable to print error");
     };
 }

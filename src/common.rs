@@ -1,5 +1,8 @@
 use simple_home_dir::home_dir;
-use std::{fs, path::PathBuf};
+use std::{
+    fs,
+    path::{Path, PathBuf},
+};
 
 pub fn template_dirs(dir: PathBuf) -> Vec<PathBuf> {
     fs::read_dir(dir)
@@ -21,7 +24,7 @@ pub fn projection_dir() -> PathBuf {
 pub fn cwd() -> PathBuf {
     std::env::current_dir().expect("Unable to get current working directory")
 }
-pub fn is_dir_empty(dir: &PathBuf) -> bool {
+pub fn is_dir_empty(dir: &Path) -> bool {
     let files = dir.read_dir().expect("Unable to access directory");
     files.count() == 0
 }
