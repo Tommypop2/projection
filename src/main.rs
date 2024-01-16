@@ -1,9 +1,9 @@
+mod common;
 mod create;
 mod list;
-mod common;
-
 use clap::{Parser, Subcommand};
 use create::CreateArgs;
+
 #[derive(Parser, Debug)]
 #[command(author, version, about, long_about = None)]
 /// Easily scaffold projects from templates

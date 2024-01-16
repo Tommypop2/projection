@@ -1,6 +1,5 @@
-use std::fs;
-
 use crate::common::{projection_dir, template_dirs};
+use std::fs;
 
 pub fn list_templates() {
     let projection_dir = projection_dir();

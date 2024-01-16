@@ -1,9 +1,8 @@
+use crate::common::{projection_dir, template_dirs};
 use clap::Parser;
 use fs_extra::dir::CopyOptions;
-use simple_home_dir::home_dir;
-use std::{fs, path::PathBuf};
+use std::fs;
 
-use crate::common::{projection_dir, template_dirs};
 #[derive(Parser, Debug)]
 pub struct CreateArgs {
     template_name: String,

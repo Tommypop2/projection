@@ -1,6 +1,5 @@
-use std::{fs, path::PathBuf};
-
 use simple_home_dir::home_dir;
+use std::{fs, path::PathBuf};
 
 pub fn template_dirs(dir: PathBuf) -> Vec<PathBuf> {
     fs::read_dir(dir)
