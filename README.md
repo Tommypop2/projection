@@ -23,3 +23,9 @@ Optionally, you can specify a destination folder: `pj create <TEMPLATE_NAME> [DE
 ### Listing available templates
 
 You can list all detected templates via the `pj list` command.
+
+```txt
+├── template1
+├── template2
+└── test_template
+```
