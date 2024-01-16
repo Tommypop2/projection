@@ -18,3 +18,10 @@ pub fn template_dirs(dir: PathBuf) -> Vec<PathBuf> {
 pub fn projection_dir() -> PathBuf {
     home_dir().expect("Cannot find home dir").join("projection")
 }
+pub fn cwd() -> PathBuf {
+    std::env::current_dir().expect("Unable to get current working directory")
+}
+pub fn is_dir_empty(dir: &PathBuf) -> bool {
+    let files = dir.read_dir().expect("Unable to access directory");
+    files.count() == 0
+}

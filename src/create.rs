@@ -1,5 +1,5 @@
-use crate::common::{projection_dir, template_dirs};
-use clap::Parser;
+use crate::common::{cwd, is_dir_empty, projection_dir, template_dirs};
+use clap::{Error, Parser};
 use fs_extra::dir::CopyOptions;
 use std::fs;
 
@@ -8,7 +8,7 @@ pub struct CreateArgs {
     template_name: String,
     destination: Option<String>,
 }
-pub fn create_template(args: &CreateArgs) {
+pub fn create_template(args: &CreateArgs) -> Result<(), Error> {
     let projection_dir = projection_dir();
     if !projection_dir.exists() {
         fs::create_dir(&projection_dir).expect("Couldn't create projection dir");
@@ -23,21 +23,15 @@ pub fn create_template(args: &CreateArgs) {
         .expect("No template found");
 
     // Copy template to current working directory
-    let cwd = std::env::current_dir().expect("Unable to get current working directory");
-    let dir_name = {
-        if let Some(dest) = &args.destination {
-            dest
-        } else {
-            &args.template_name
-        }
+    let dir_name = if let Some(dest) = &args.destination {
+        dest
+    } else {
+        &args.template_name
     };
-    let new_dir = cwd.join(dir_name);
+
+    let new_dir = cwd().join(dir_name);
     if new_dir.exists() {
-        let files = new_dir
-            .read_dir()
-            .expect("Unable to access directory")
-            .count();
-        if files > 0 {
+        if !is_dir_empty(&new_dir) {
             panic!("Directory '{}' is non-empty", &dir_name);
         }
     } else {
@@ -54,4 +48,5 @@ pub fn create_template(args: &CreateArgs) {
         },
     )
     .expect("Unable to copy template");
+    Ok(())
 }

@@ -20,8 +20,14 @@ enum Commands {
 }
 fn main() {
     let cli = Cli::parse();
-    match &cli.command {
+    let res = match &cli.command {
         Commands::Create(args) => create::create_template(args),
         Commands::List => list::list_templates(),
-    }
+    };
+    match res {
+        Err(e) => {
+            e.print().expect("Unable to print error");
+        }
+        _ => {}
+    };
 }
