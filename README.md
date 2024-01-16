@@ -14,6 +14,12 @@ Any directory under `<HOMEDIR>/projection` will automatically be interpreted as 
     └── ...
 ```
 
-To initialise a template in your current directory, run `pj <TEMPLATE_NAME>`.
+### Initialising a template
 
-Optionally, you can specify a destination folder: `pj <TEMPLATE_NAME> [DESTINATION]`
+To initialise a template in your current directory, run `pj create <TEMPLATE_NAME>`.
+
+Optionally, you can specify a destination folder: `pj create <TEMPLATE_NAME> [DESTINATION]`
+
+### Listing available templates
+
+You can list all detected templates via the `pj list` command.
