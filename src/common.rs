@@ -18,6 +18,7 @@ pub fn template_dirs(dir: PathBuf) -> Vec<PathBuf> {
         })
         .collect()
 }
+
 pub fn projection_dir() -> PathBuf {
     home_dir().expect("Cannot find home dir").join("projection")
 }

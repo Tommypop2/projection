@@ -17,12 +17,18 @@ enum Commands {
     Create(CreateArgs),
     #[command(alias = "l")]
     List,
+    #[command(alias = "d")]
+    Directory,
 }
 fn main() {
     let cli = Cli::parse();
     let res = match &cli.command {
         Commands::Create(args) => create::create_template(args),
         Commands::List => list::list_templates(),
+        Commands::Directory => {
+            println!("{}", common::projection_dir().to_str().unwrap());
+            Ok(())
+        }
     };
     if let Err(e) = res {
         e.print().expect("Unable to print error");
